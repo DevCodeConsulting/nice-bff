@@ -1,0 +1,22 @@
+{
+  "name": "nice-bff",
+  "version": "1.0.0",
+  "description": "Backend-for-frontend for the Nice client",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevCodeConsulting/nice-bff.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevCodeConsulting/nice-bff/issues"
+  },
+  "homepage": "https://github.com/DevCodeConsulting/nice-bff#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
