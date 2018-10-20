@@ -78,7 +78,8 @@ const typeDefs = gql`
   # The "Query" type is the root of all GraphQL queries.
   # (A "Mutation" type will be covered later on.)
   type Query {
-    books: [Book],
+    books(query: String): [Book],
+    book(id: Int): Book,
     authors: [Author]
     author: Author
   }
@@ -87,8 +88,16 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
+    book: (_, args)=>{
+      return books.find(book => book.id === args.id)
+    },
     books: (_, args) => {
-      return books;
+      if (!args.query) return books;
+      return books.filter(book => {
+        return Object.values(book).find(value => {
+          return value.toString().toLowerCase().includes(args.query.toLowerCase())
+        })
+      });
     },
     authors: (_, args) => authors,
   },
