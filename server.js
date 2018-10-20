@@ -1,7 +1,43 @@
-const express = require('express')
-const port = 4500
-const app = express()
+const { ApolloServer, gql } = require('apollo-server');
+// const port = 4500
 
-app.listen(port, () => {
-  console.log(`now listening to requests on port ${port}`)
-})
+const books = [
+  {
+    title: 'Harry Potter and the Chamber of Secrets',
+    author: 'J.K. Rowling',
+  },
+  {
+    title: 'Jurassic Park',
+    author: 'Michael Crichton',
+  },
+];
+
+// Type definitions define the "shape" of your data and specify
+// which ways the data can be fetched from the GraphQL server.
+const typeDefs = gql`
+  # Comments in GraphQL are defined with the hash (#) symbol.
+
+  # This "Book" type can be used in other type declarations.
+  type Book {
+    title: String
+    author: String
+  }
+
+  # The "Query" type is the root of all GraphQL queries.
+  # (A "Mutation" type will be covered later on.)
+  type Query {
+    books: [Book]
+  }
+`;
+
+const resolvers = {
+  Query: {
+    books: () => books,
+  },
+};
+
+const server = new ApolloServer({ typeDefs, resolvers });
+
+server.listen().then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
+});
