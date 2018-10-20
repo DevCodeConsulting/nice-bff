@@ -18,7 +18,6 @@
   "homepage": "https://github.com/DevCodeConsulting/nice-bff#readme",
   "dependencies": {
     "apollo-server": "^2.1.0",
-    "express": "^4.16.4",
     "graphql": "^14.0.2"
   }
 }
