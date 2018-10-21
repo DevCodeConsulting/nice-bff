@@ -104,25 +104,33 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    book: (_, args)=>{
+    book: (_, args) => {
       return books.find(book => book.id === args.id)
     },
     books: (_, args) => {
       if (!args.query) return books;
       return books.filter(book => {
+        console.log('Setting author to false');
         let authorMatch = false
+
         authors.forEach(author => {
-          if ( author.name.toString().toLowerCase().includes(args.query.toLowerCase())) {
+          if (author.id === book.authorId && author.name.toString().toLowerCase().includes(args.query.toLowerCase())) {
+            console.log('Setting author to true');
             authorMatch = true
           }
         })
 
+        console.log('Query: ', args.query)
+        console.log('authorMatch: ', authorMatch)
+
         let bookMatch = false
         Object.values(book).forEach(value => {
-          if (value.toString().toLowerCase().includes(args.query.toLowerCase()) ) {
+          if (value.toString().toLowerCase().includes(args.query.toLowerCase())) {
             bookMatch = true
           }
         })
+
+        console.log('Bookmatch: ', bookMatch)
         return bookMatch || authorMatch
       });
     },
