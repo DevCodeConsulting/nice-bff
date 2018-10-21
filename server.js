@@ -19,20 +19,29 @@ const books = [
   {
     id: 4,
     title: 'Oliver Twist',
-    authorId: 4,
+    authorId: 6,
   },
   {
     id: 5,
     title: 'The white fleet',
-    authorId: 5,
+    authorId: 4,
   },
   {
     id: 6,
     title: 'Processen',
     authorId: 5,
+  },
+  {
+    id: 7,
+    title: 'Sagan om ringen',
+    authorId: 7
+  },
+  {
+    id: 8,
+    title: 'Sagan om de två tornen',
+    authorId: 7
   }
 ];
-
 
 const authors = [
   {
@@ -54,6 +63,14 @@ const authors = [
   {
     id: 5,
     name: 'Franz Kafka'
+  },
+  {
+    id: 6,
+    name: 'Charles Dickens'
+  },
+  {
+    id: 7,
+    name: 'J.R.R. Tolkien'
   }
 ];
 
@@ -85,7 +102,6 @@ const typeDefs = gql`
   }
 `;
 
-
 const resolvers = {
   Query: {
     book: (_, args)=>{
@@ -94,9 +110,20 @@ const resolvers = {
     books: (_, args) => {
       if (!args.query) return books;
       return books.filter(book => {
-        return Object.values(book).find(value => {
-          return value.toString().toLowerCase().includes(args.query.toLowerCase())
+        let authorMatch = false
+        authors.forEach(author => {
+          if ( author.name.toString().toLowerCase().includes(args.query.toLowerCase())) {
+            authorMatch = true
+          }
         })
+
+        let bookMatch = false
+        Object.values(book).forEach(value => {
+          if (value.toString().toLowerCase().includes(args.query.toLowerCase()) ) {
+            bookMatch = true
+          }
+        })
+        return bookMatch || authorMatch
       });
     },
     authors: (_, args) => authors,
